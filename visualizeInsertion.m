@@ -18,7 +18,8 @@ S = load('.\LAST RUN\output.mat');    % Curve can be initialized by something el
 
 % Initialize globals
 this_g = S.g;
-discreteNum = S.nsez;
+discreteNum = S.nsez; % number of discrete sections in curve
+length = S.L; % total length of deformation in m
 plotIter = 9;
 sectionSize = (discreteNum - 1) / plotIter;
 

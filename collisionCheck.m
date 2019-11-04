@@ -1,4 +1,4 @@
-function this_C = collisionCheck(this_C,index,design,O)
+function this_C = collisionCheck(this_C,index,design,O,type,tube_rad,length)
 %collisionCheck recurs over tree, starting at node specified by index,
 %checking for collisions at each node. If there is a collision, the subtree
 %from that node is deleted from the graph. Recursion stops when either a
@@ -14,10 +14,9 @@ function this_C = collisionCheck(this_C,index,design,O)
 % if index is base or it has already been checked
 if index == 1 || this_C.is_checked(index) == true
     return  %make sure variable has been properly updated
-elseif collisionNode(this_C.mat(index,:),design,O)
+elseif collisionNode(type,this_C.mat(index,:),design,O,tube_rad,length)
     %if in collision, delete node and subtree
     this_C = deleteSubtree(this_C,index);
-    % recur on parent??
 end 
  %else recur on parent
     this_C.is_checked(index) = true;

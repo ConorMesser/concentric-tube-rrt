@@ -15,7 +15,9 @@ disp('Pre-processing')
 
 % Geometrical input del braccio siliconico
 R        =1.8e-3;                         % [m] Raggio braccio 10e-3
-L        =75e-3;                        % [m] Lunghezza del braccio
+if (~exist('L','var'))
+    L        =75e-3;                        % [m] Lunghezza del braccio
+end
 nsez     =50;
 %nsez     =floor(L*2e2+1);                % una sezione per mezzo centimetro floor(L*2e2+1)
 X        =linspace(0,L,nsez);            % [m] curvilinear abscissa

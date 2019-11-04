@@ -1,4 +1,4 @@
-function C_map = exploreDesign(d,d_ind,C_map,c_max_step,c_ranges,O)
+function C_map = exploreDesign(d,d_ind,C_map,c_max_step,c_ranges,O,type,tube_rad,length)
 %exploreDesign adds node to configuration graph corresponding to this
 %design d, with max step size away from the nearest neighbor of a random 
 %sampled configuration. Updates the configuration map with an edge from the
@@ -35,7 +35,7 @@ c_new_index = length(this_C.mat(:,1));
 this_C.graph = addnode(this_C.graph,{int2str(c_near_index),int2str(c_new_index)}); %nodes have string names so they are notrenamed when a node is deleted
 this_C.checked = [this_C.checked false];
 
-this_C = collisionCheck(this_C,c_new_index,d,O);
+this_C = collisionCheck(this_C,c_new_index,d,O,type,tube_rad,length);
 
 C_map(d_ind) = this_C;
 end

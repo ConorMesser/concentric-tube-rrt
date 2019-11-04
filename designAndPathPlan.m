@@ -13,6 +13,8 @@
 d_max_step = 1; % should this be different for the different params?
 c_max_step = 1; % should this be different for insertion/rotation?
 
+tube_rad = 0.0009; % in m
+
 % User-specified ranges to define Design and Config spaces
 init_range = [-20 20];
 delta_range = [-20 20];
@@ -53,7 +55,7 @@ for b = 1:4
             [D,C_map] = newDesign(D,C_map,d_max_step,design_ranges); % adds random design and associated entry to map
         else
             D_ind = randi(length(D(:,1)));
-            C_map = exploreDesign(D(D_ind,:),D_ind,C_map,c_max_step,config_ranges,obstacles); % adds node to one graph in C_map
+            C_map = exploreDesign(D(D_ind,:),D_ind,C_map,c_max_step,config_ranges,obstacles,base,tube_rad,insertion_range(2)); % adds node to one graph in C_map
             % should there be a boolean on designs to see if there is a
             % valid solution yet?
         end
