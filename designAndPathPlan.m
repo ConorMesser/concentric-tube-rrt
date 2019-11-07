@@ -14,12 +14,12 @@ HOME_DIR = pwd;
 % User-specified maximum size steps for Design and Configuration spaces
 d_max_step = 2; % should this be different for the different params?
 c_max_step = 3; % should this be different for insertion/rotation?
-n = 1000;
+n = 500;
 p_explore = 0.05;
 
 tube_rad = 0.9; % in mm
 obstacles.rad = 5;  % in mm
-obstacles.pos = [30 0 0];
+obstacles.pos = [30 0 0; 80 20 0];
 
 goal.rad = 25;
 goal.pos = [125 0 0];
@@ -55,9 +55,11 @@ for b = 1:4
     C_graph = digraph;  %use tree implementation? http://tinevez.github.io/matlab-tree/
     C_checked = true;
     C_goal = false;
+    C_goal_i = false;
     this_C.mat = C_mat;
     this_C.graph = C_graph;
     this_C.checked = C_checked;
+    this_C.goal_ind = C_goal_i;
     this_C.goal = C_goal;
     C_map(1) = this_C;
 
@@ -75,6 +77,13 @@ for b = 1:4
     % Find best configuration for this base
     % Search through all designs, collect ones that have a solution
     % Compare the cost for the solutions of those designs, choose best
+    
+    D_success = [];
+    for  s = 1:length(D(:,1))
+        if C_map(s).goal
+            D_success = [D_success s];
+        end
+    end
     
     workspace_filename = strcat(base,"2");
     cd(HOME_DIR)

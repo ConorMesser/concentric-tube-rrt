@@ -30,7 +30,8 @@ if collision_bool
 else 
     this_C.checked(index) = true;
     if goal_bool
-        this_C.goal(index) = true;
+        this_C.goal_ind(index) = true;
+        this_C.goal = true;
     end
 end
 
