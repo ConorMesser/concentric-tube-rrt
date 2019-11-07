@@ -14,9 +14,9 @@ disp('Pre-processing')
 % beginning of input section
 
 % Geometrical input del braccio siliconico
-R        =1.8e-3;                         % [m] Raggio braccio 10e-3
+R        =0.9;                         % [mm]
 if (~exist('L','var'))
-    L        =75e-3;                        % [m] Lunghezza del braccio
+    L        =100;                        % [mm] Lunghezza del braccio
 end
 nsez     =50;
 %nsez     =floor(L*2e2+1);                % una sezione per mezzo centimetro floor(L*2e2+1)
@@ -26,17 +26,17 @@ xci_bias =[0 0 0 1 0 0]';                % bias screw ([w v])
 
 % User input parameters
 if (~exist('bend_param','var'))
-    bend_param  =[0 30]';                % 1) controls initial/constant bending in y, 2) controls the change from beginning to end of tube
+    bend_param  =[5 -15]';                % 1) controls initial/constant bending in y, 2) controls the change from beginning to end of tube
 end
 if (~exist('z_factor','var'))
-    z_factor    =-4;                     % Controls the z-bending in relation to the y (multiplied by param(2) to give the z bending)
+    z_factor    =1;                     % Controls the z-bending in relation to the y (multiplied by param(2) to give the z bending)
 end  
 if (~exist('type','var'))
-    type        ='Linear';               %'Linear','Quad','Helix','Sinu'
+    type        ='Quad';               %'Linear','Quad','Helix','Sinu'
 end
                        
 % Normalize bending parameters to the tube length
-bend_param = [1 0; 0 1/L]*bend_param;
+bend_param = [1/L 0; 0 1/L^2]*bend_param;
 
 % global variable
 gv.L     =L;
@@ -66,6 +66,8 @@ if isequal(type,'Linear')
 elseif isequal(type,'Quad') 
     y           =[1 0; 0 0; 0 1; 0 0; 0 0; 0 0; 0 0];
     z           =[0 0; 0 0; 0 z_factor; 0 0; 0 0; 0 0; 0 0];
+    
+    bend_param = [1 0; 0 1/L]*bend_param;  % compensate for quadratic on the changing value
 elseif isequal(type,'Helix')  % allows for simple helix or changing amplitude helix (if param(2)!=0, amplitude changes)
     y           =[0 0; 0 0; 0 0; 1 0; 0 0; 0 1; 0 0];
     z           =[0 0; 0 0; 0 0; 0 0; z_factor 0; 0 0; 0 1];

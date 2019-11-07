@@ -12,14 +12,18 @@
 % User-specified maximum size steps for Design and Configuration spaces
 d_max_step = 1; % should this be different for the different params?
 c_max_step = 1; % should this be different for insertion/rotation?
+n = 200;
+p_explore = 0.05;
 
-tube_rad = 0.0009; % in m
+tube_rad = 0.9; % in mm
+obstacles.rad = 7;  % in mm
+obstacles.pos = [20 0 0];
 
 % User-specified ranges to define Design and Config spaces
-init_range = [-20 20];
-delta_range = [-20 20];
-factor_range = [-5 5];
-insertion_range = [0 20];  % given in cm
+init_range = [0 5];
+delta_range = [-10 10];
+factor_range = [-3 3];
+insertion_range = [0 200];  % given in mm
 rotation_range = [-pi pi]; % given in radians
 
 % Package range values for Design and Config space
@@ -27,7 +31,7 @@ design_ranges = [init_range;delta_range;factor_range];
 config_ranges = [insertion_range;rotation_range];
 
 % Defines base type names (linear, quadratic, sinusoidal, helix)
-base_names = ['linear','quad','helix','sinu'];
+base_names = ["Linear","Quad","Helix","Sinu"];
 
 for b = 1:4
     base = base_names(b);
@@ -35,7 +39,7 @@ for b = 1:4
     % Choose a random d in design space of this base
     % d includes bending coefficient, rate of change, and z factor
     % The d is the same for each, but for sinu, rate of change isn't used
-    d_rand = randFromRange(design_ranges);
+    d_rand = randFromRanges(design_ranges);
 
     % Insert d into Design graph
     % **** Just stored as array for now - could speed up using kd-tree***

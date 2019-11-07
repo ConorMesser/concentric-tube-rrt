@@ -1,4 +1,4 @@
-function boolean = collisionNode(type,c,d,O,tube_rad,length)
+function boolean = collisionNode(type,c,d,O,tube_rad,L)
 %collisionNode calculates the trajectory of the tube based on the given
 %configuration and design and checks for collisions with any of the
 %obstacles.
@@ -22,22 +22,23 @@ function boolean = collisionNode(type,c,d,O,tube_rad,length)
 % time - will implement differently in C++)
 
 % define cylindrical tube size
-cylinder_rad = 20;
+cylinder_rad = 25;
 
-bend_param = d(1,1:2);
+bend_param = d(1,1:2)';
 z_factor = d(1,3);
 type = type;
-L = length;
+
 
 run('variable_driver.m')
 
 % use g - position is every fourth column
-load('\Renda_NonLinearCurves\LAST RUN\output.mat',{'nsez','g','L'});
-disc_step = ceil(c(1)*nsez/length);
-sectionIndices = (nsez-disc_step):nsez;
+myVars = {'nsez','g','L'};
+load('output.mat',myVars{:});
+disc_step = round(1+c(1)*(nsez-1)/L);  % number of steps out of nsez
+sectionIndices = (nsez-disc_step+1):nsez;
 
 % prepare obstacles
-obs_num = length(O.pos(1,:));
+obs_num = length(O.pos(:,1));
 min_dist = O.rad + tube_rad;
 
 % find positions based on current configuration
@@ -63,7 +64,6 @@ for i = 1:length(section_position(1,:))
         if dist < min_dist
             boolean = true;
             return
-            % delete sub tree???
         end
     end
 end

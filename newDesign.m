@@ -14,7 +14,7 @@ function [D,C_map] = newDesign(D,C_map,d_max_step,d_ranges)
 %   Updated D and C_map
 
 % choose a random d in the design space 
-d_sample = randFromRange(d_ranges);
+d_sample = randFromRanges(d_ranges);
 [d_near,d_near_index] = neighbor(d_sample,D);
 d_new = step(d_near,d_sample,d_max_step);
 
@@ -24,7 +24,7 @@ D = [D;d_new];
 % Define new configuration struct with inherited graph - lazy heuristic
 C_mat = C_map(d_near_index).mat;  % insertion, rotation
 C_graph = C_map(d_near_index).graph;
-C_checked = false(length(C_mat(:,1))); % no configurations checked for collisions in new design
+C_checked = false(1,length(C_mat(:,1))); % no configurations checked for collisions in new design
 C_checked(1) = true;
 this_C.mat = C_mat;
 this_C.graph = C_graph;

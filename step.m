@@ -1,4 +1,4 @@
-function new = step(to,from,max)
+function new = step(from,to,max)
 %step takes in two vectors of the same size and interpolates between them
 %linearly using the max value. If the euclidean distance is less than max,
 %the near vector is returned.
@@ -12,12 +12,8 @@ function new = step(to,from,max)
 %   Output:
 %   new  - interpolated point
 
-s = length(to);
-vec = zeros(s);
 % find vector from -> to
-for i = 1:s
-    vec(i) = to(i) - from(i);
-end
+vec = to - from;
 
 % if vector magnitude > max, multiply unit vector by max
 vec_mag = norm(vec);
