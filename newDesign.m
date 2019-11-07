@@ -26,9 +26,11 @@ C_mat = C_map(d_near_index).mat;  % insertion, rotation
 C_graph = C_map(d_near_index).graph;
 C_checked = false(1,length(C_mat(:,1))); % no configurations checked for collisions in new design
 C_checked(1) = true;
+C_goal = false;
 this_C.mat = C_mat;
 this_C.graph = C_graph;
 this_C.checked = C_checked;
+this_C.goal = C_goal;
 
 C_map(length(D(:,1))) = this_C;
 end

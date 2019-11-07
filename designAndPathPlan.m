@@ -9,15 +9,20 @@
 % Written by: Conor Messer
 % Last Modified: 10/21/2019
 
+HOME_DIR = pwd;
+
 % User-specified maximum size steps for Design and Configuration spaces
-d_max_step = 1; % should this be different for the different params?
-c_max_step = 1; % should this be different for insertion/rotation?
-n = 200;
+d_max_step = 2; % should this be different for the different params?
+c_max_step = 3; % should this be different for insertion/rotation?
+n = 1000;
 p_explore = 0.05;
 
 tube_rad = 0.9; % in mm
-obstacles.rad = 7;  % in mm
-obstacles.pos = [20 0 0];
+obstacles.rad = 5;  % in mm
+obstacles.pos = [30 0 0];
+
+goal.rad = 25;
+goal.pos = [125 0 0];
 
 % User-specified ranges to define Design and Config spaces
 init_range = [0 5];
@@ -49,9 +54,11 @@ for b = 1:4
     C_mat = [0 0];  % stores the configuration (insertion, rotation) w/ index referenced in graph
     C_graph = digraph;  %use tree implementation? http://tinevez.github.io/matlab-tree/
     C_checked = true;
+    C_goal = false;
     this_C.mat = C_mat;
     this_C.graph = C_graph;
     this_C.checked = C_checked;
+    this_C.goal = C_goal;
     C_map(1) = this_C;
 
     for i = 1:n
@@ -59,7 +66,7 @@ for b = 1:4
             [D,C_map] = newDesign(D,C_map,d_max_step,design_ranges); % adds random design and associated entry to map
         else
             D_ind = randi(length(D(:,1)));
-            C_map = exploreDesign(D(D_ind,:),D_ind,C_map,c_max_step,config_ranges,obstacles,base,tube_rad,insertion_range(2)); % adds node to one graph in C_map
+            C_map = exploreDesign(D(D_ind,:),D_ind,C_map,c_max_step,config_ranges,obstacles,goal,base,tube_rad,insertion_range(2)); % adds node to one graph in C_map
             % should there be a boolean on designs to see if there is a
             % valid solution yet?
         end
@@ -68,6 +75,12 @@ for b = 1:4
     % Find best configuration for this base
     % Search through all designs, collect ones that have a solution
     % Compare the cost for the solutions of those designs, choose best
+    
+    workspace_filename = strcat(base,"2");
+    cd(HOME_DIR)
+    cd .\Tests
+    save(workspace_filename);
+    cd(HOME_DIR)
     
 end
 

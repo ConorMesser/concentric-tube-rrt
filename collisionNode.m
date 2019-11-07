@@ -1,4 +1,4 @@
-function boolean = collisionNode(type,c,d,O,tube_rad,L)
+function [collision_bool, goal_bool] = collisionNode(type,c,d,O,goal,tube_rad,L)
 %collisionNode calculates the trajectory of the tube based on the given
 %configuration and design and checks for collisions with any of the
 %obstacles.
@@ -21,8 +21,11 @@ function boolean = collisionNode(type,c,d,O,tube_rad,L)
 % using the orientation of the tube at that point. (Don't spend too much
 % time - will implement differently in C++)
 
+
+goal_bool = false;
+
 % define cylindrical tube size
-cylinder_rad = 25;
+cylinder_rad = 20;
 
 bend_param = d(1,1:2)';
 z_factor = d(1,3);
@@ -52,7 +55,7 @@ for i = 1:length(section_position(1,:))
     % ensure inside cylindrical bounds
     planar_dist = norm(this_pos(2:3)); % distance in y-z plane
     if planar_dist > tube_rad + cylinder_rad
-        boolean = true;
+        collision_bool = true;
         return
     end
     
@@ -62,12 +65,20 @@ for i = 1:length(section_position(1,:))
         this_obs = O.pos(j,:);
         dist = norm(this_obs - this_pos);
         if dist < min_dist
-            boolean = true;
+            collision_bool = true;
             return
+        end
+    end
+    
+    if i == length(section_position(1,:))
+        dist = norm(goal.pos(:)' - this_pos);
+        if dist < goal.rad
+            goal_bool = true;
         end
     end
 end
 
-boolean = false;
+
+collision_bool = false;
 end
 
