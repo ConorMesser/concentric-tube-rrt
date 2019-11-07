@@ -16,9 +16,11 @@ disp('Pre-processing')
 % Geometrical input del braccio siliconico
 R        =0.9;                         % [mm]
 if (~exist('L','var'))
-    L        =100;                        % [mm] Lunghezza del braccio
+    L        =200;                        % [mm] Lunghezza del braccio
 end
-nsez     =50;
+if (~exist('nsez','var'))
+    nsez        =200;                        % [mm] Lunghezza del braccio
+end
 %nsez     =floor(L*2e2+1);                % una sezione per mezzo centimetro floor(L*2e2+1)
 X        =linspace(0,L,nsez);            % [m] curvilinear abscissa
 dX       =L/(nsez-1);                    % delta X
@@ -26,13 +28,13 @@ xci_bias =[0 0 0 1 0 0]';                % bias screw ([w v])
 
 % User input parameters
 if (~exist('bend_param','var'))
-    bend_param  =[5 -15]';                % 1) controls initial/constant bending in y, 2) controls the change from beginning to end of tube
+    bend_param  =[2 5.4]';                % 1) controls initial/constant bending in y, 2) controls the change from beginning to end of tube
 end
 if (~exist('z_factor','var'))
-    z_factor    =1;                     % Controls the z-bending in relation to the y (multiplied by param(2) to give the z bending)
+    z_factor    =-.5;                     % Controls the z-bending in relation to the y (multiplied by param(2) to give the z bending)
 end  
 if (~exist('type','var'))
-    type        ='Quad';               %'Linear','Quad','Helix','Sinu'
+    type        ='Linear';               %'Linear','Quad','Helix','Sinu'
 end
                        
 % Normalize bending parameters to the tube length
