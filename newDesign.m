@@ -27,12 +27,15 @@ C_graph = C_map(d_near_index).graph;
 C_checked = false(1,length(C_mat(:,1))); % no configurations checked for collisions in new design
 C_checked(1) = true;
 C_goal = false;
-C_goal_i = false;
+C_goal_i = false(1,length(C_mat(:,1)));
+C_weight = 1;
 this_C.mat = C_mat;
 this_C.graph = C_graph;
 this_C.checked = C_checked;
 this_C.goal_ind = C_goal_i;
 this_C.goal = C_goal;
+this_C.weight = C_weight;
+
 
 C_map(length(D(:,1))) = this_C;
 end

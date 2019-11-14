@@ -14,16 +14,16 @@
 
 if ~exist('this_g','var')
     % Parameters to run variable_driver code
-%     bend_param = [20 -20]';
-%     z_factor = 1.2;
-%     type = 'Linear';
-%     run('variable_driver.m');
-    S = load('.\LAST RUN\output.mat');    % Curve can be initialized by something else
+    bend_param = [1 -2]';
+    z_factor = -0.08;
+    type = 'Helix';
+    run('variable_driver.m');
+    %S = load('.\LAST RUN\output.mat');    % Curve can be initialized by something else
 
     % Initialize globals
-    this_g = S.g;
-    discreteNum = S.nsez; % number of discrete sections in curve
-    lng = S.L; % total length of deformation in m
+    this_g = g;
+    discreteNum = nsez; % number of discrete sections in curve
+    lng = L; % total length of deformation in m
     plotIter = 9;
     sectionSize = (discreteNum - 1) / plotIter;
     sectionStartInd = zeros(plotIter);

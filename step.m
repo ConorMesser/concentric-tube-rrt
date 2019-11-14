@@ -3,11 +3,13 @@ function new = step(from,to,max)
 %linearly using the max value. If the euclidean distance is less than max,
 %the near vector is returned.
 %
+%       Can be updated with new function for configuration step to allow
+%       for wrap-around for rotations (-pi = pi)
+%
 %   Input:
 %   to   - point representing destination (in R^n)
 %   from - point representing origin (in R^n)
 %   max  - maximum travel distance 
-%           **change to be in each direction?**
 %
 %   Output:
 %   new  - interpolated point

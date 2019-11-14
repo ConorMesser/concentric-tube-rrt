@@ -5,7 +5,7 @@ function [rand_vec] = randFromRanges(ranges)
     
     n = length(ranges(:,1));
     rand_vec = zeros(1, n);
-    for i = 1:n(1)
+    for i = 1:n
         rand_vec(i) = ranges(i,1)+(ranges(i,2)-ranges(i,1))*rand;
     end
 end

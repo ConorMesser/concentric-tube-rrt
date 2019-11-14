@@ -12,31 +12,32 @@
 HOME_DIR = pwd;
 
 % User-specified maximum size steps for Design and Configuration spaces
-d_max_step = 2; % should this be different for the different params?
+d_max_step = 1; % should this be different for the different params?
 c_max_step = 3; % should this be different for insertion/rotation?
-n = 500;
-p_explore = 0.05;
+n = 10000;
+p_explore = 0.005;
 
 tube_rad = 0.9; % in mm
 obstacles.rad = 5;  % in mm
-obstacles.pos = [30 0 0; 80 20 0];
+obstacles.pos = [120 0 20; 80 25 0; 55 20 20; 90 -15 0];
 
-goal.rad = 25;
-goal.pos = [125 0 0];
+goal.rad = 5;
+goal.pos = [130 -2 20];
 
 % User-specified ranges to define Design and Config spaces
-init_range = [0 5];
-delta_range = [-10 10];
-factor_range = [-3 3];
+init_range = [0 3];  %[0 5]
+delta_range = [-6 3];  %[-10 10]
+factor_range = [-2 2];  %[-3 3]
 insertion_range = [0 200];  % given in mm
-rotation_range = [-pi pi]; % given in radians
+rotation_range = [0 60]; % allows for scaling of nearest neighbor calls
+                           %  must be mapped to -pi to pi
 
 % Package range values for Design and Config space
 design_ranges = [init_range;delta_range;factor_range];
 config_ranges = [insertion_range;rotation_range];
 
 % Defines base type names (linear, quadratic, sinusoidal, helix)
-base_names = ["Linear","Quad","Helix","Sinu"];
+base_names = ["Helix","Sinu","Linear","Quad"];
 
 for b = 1:4
     base = base_names(b);
@@ -56,18 +57,26 @@ for b = 1:4
     C_checked = true;
     C_goal = false;
     C_goal_i = false;
+    C_weight = 1;
     this_C.mat = C_mat;
     this_C.graph = C_graph;
     this_C.checked = C_checked;
     this_C.goal_ind = C_goal_i;
     this_C.goal = C_goal;
+    this_C.weight = C_weight;
     C_map(1) = this_C;
 
     for i = 1:n
+        disp(i)
+        
         if rand < p_explore
             [D,C_map] = newDesign(D,C_map,d_max_step,design_ranges); % adds random design and associated entry to map
         else
             D_ind = randi(length(D(:,1)));
+            
+            while rand > C_map(D_ind).weight  % favors designs with fewer collisions
+                D_ind = randi(length(D(:,1)));
+            end
             C_map = exploreDesign(D(D_ind,:),D_ind,C_map,c_max_step,config_ranges,obstacles,goal,base,tube_rad,insertion_range(2)); % adds node to one graph in C_map
             % should there be a boolean on designs to see if there is a
             % valid solution yet?
@@ -85,11 +94,14 @@ for b = 1:4
         end
     end
     
-    workspace_filename = strcat(base,"2");
+    workspace_filename = strcat(base,"7");
     cd(HOME_DIR)
     cd .\Tests
     save(workspace_filename);
     cd(HOME_DIR)
+    
+    
+    overall_success.(base{1}) = D_success;
     
 end
 

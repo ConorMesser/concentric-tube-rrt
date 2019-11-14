@@ -25,18 +25,19 @@ function [collision_bool, goal_bool] = collisionNode(type,c,d,O,goal,tube_rad,L)
 goal_bool = false;
 
 % define cylindrical tube size
-cylinder_rad = 20;
+cylinder_rad = 25;
 
 bend_param = d(1,1:2)';
 z_factor = d(1,3);
 type = type;
 
 
-run('variable_driver.m')
+run('variable_driver.m')  % implement varialbe_driver as function??
+
 
 % use g - position is every fourth column
-myVars = {'nsez','g','L'};
-load('output.mat',myVars{:});
+%myVars = {'nsez','g','L'};
+%load('output.mat',myVars{:});
 disc_step = round(1+c(1)*(nsez-1)/L);  % number of steps out of nsez
 sectionIndices = (nsez-disc_step+1):nsez;
 

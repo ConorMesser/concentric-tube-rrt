@@ -1,4 +1,4 @@
-function [] = graphVisualization(this_C,d,type,O,cylinder_rad,start_ind,L,nsez)
+function [] = graphVisualization(this_C,d,type,O,goal,cylinder_rad,start_ind,L,nsez)
 % Allows visualization of a sequence of tube configurations with certain
 % obstacles. Sequence given as a graph with the index name to start with.
 % Curves will be plotted starting at that index and iterating over the
@@ -58,6 +58,13 @@ for o = 1:length(O.pos(:,1))
     z_o = O.pos(o,3);
     scatter3(x_o,y_o,z_o,50,'x')
 end
+
+%plot goal on graph
+hold on
+x_g = goal.pos(1,1);
+y_g = goal.pos(1,2);
+z_g = goal.pos(1,3);
+scatter3(x_g,y_g,z_g,100,'x')
 end
 
 function h = circleYZ(x,y,z,r)

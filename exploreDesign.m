@@ -34,11 +34,10 @@ this_C.mat = [this_C.mat; c_new];
 c_new_index = length(this_C.mat(:,1));
 this_C.graph = addedge(this_C.graph,int2str(c_near_index),int2str(c_new_index)); %nodes have string names so they are notrenamed when a node is deleted
 this_C.checked = [this_C.checked false];
-this_C.goal = false;
 this_C.goal_ind = [this_C.goal_ind false];
 
-
-this_C = collisionCheck(this_C,c_new_index,d,O,goal,type,tube_rad,L);
+rot_max = c_ranges(2,2);
+this_C = collisionCheck(this_C,c_new_index,d,O,goal,type,tube_rad,L,rot_max);
 
 C_map(d_ind) = this_C;
 end

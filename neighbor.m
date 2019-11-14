@@ -5,8 +5,8 @@ function [neighbor,n_index] = neighbor(sample,mat)
 %   Implemented first as an exhaustive search. Could be sped up using a
 %   KD-tree, which would give average O(log(m)) time instead of O(m) time.
 %   Additional modification may include weighting positive distances, at
-%   least for insertion (retraction shouldn't be allowed). Maybe normalize
-%   for the different directions?
+%   least for insertion (retraction shouldn't be allowed). Also maybe allow
+%   wrap around for rotations.
 %   
 %   Input:
 %   sample - the given point (R^n)

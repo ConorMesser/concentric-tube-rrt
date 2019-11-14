@@ -1,4 +1,4 @@
-close all
+%close all
 format long
 clc
 
@@ -8,7 +8,7 @@ tic
 
 %-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
-disp('Pre-processing')
+%disp('Pre-processing')
 
 %-------------------------------------------------------------------------
 % beginning of input section
@@ -52,7 +52,7 @@ gv.dX    =dX;
 % solution initialization 
 % sol=g
 
-disp('Time-advancing')
+%disp('Time-advancing')
 
 g        =zeros(4,4*nsez);
 xci      =zeros(6,nsez);
@@ -85,10 +85,10 @@ xci_o       =Bq_o*bend_param+xci_bias;
 g(:,1:4)    =g_prec;
 xci(:,1)    =xci_o;
             
+options_iter  = @(delta) [1 delta delta^2 sin((2*pi*delta)/L) cos((2*pi*delta)/L) sin((2*pi*delta)/L)*delta cos((2*pi*delta)/L)*delta];
 % integrate
 for ii=2:nsez
     
-    options_iter  = @(delta) [1 delta delta^2 sin((2*pi*delta)/L) cos((2*pi*delta)/L) sin((2*pi*delta)/L)*delta cos((2*pi*delta)/L)*delta];
     Bq_here       =[0 0;options_iter(X(ii))*y;options_iter(X(ii))*z;0 0;0 0;0 0]; 
     Bq_here1      =[0 0;options_iter(X(ii-1)+C1*dX)*y;options_iter(X(ii-1)+C1*dX)*z;0 0;0 0;0 0]; 
     Bq_here2      =[0 0;options_iter(X(ii-1)+C2*dX)*y;options_iter(X(ii-1)+C2*dX)*z;0 0;0 0;0 0]; 
@@ -111,15 +111,15 @@ end
 
 gv.g     =g;
 
-toc
+%toc
 %-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
 % postproc
 
-disp('Post-processing')
+%disp('Post-processing')
 
-variable_postproc(xci)
+%variable_postproc(xci)   % saving last run data and plotting not needed
 
-toc
+%toc
 
 % end

@@ -1,4 +1,4 @@
-function this_C = collisionCheck(this_C,index,design,O,goal,type,tube_rad,L)
+function this_C = collisionCheck(this_C,index,design,O,goal,type,tube_rad,L,rot_max)
 %collisionCheck recurs over tree, starting at node specified by index,
 %checking for collisions at each node. If there is a collision, the subtree
 %from that node is deleted from the graph. Recursion stops when either a
@@ -16,6 +16,10 @@ function this_C = collisionCheck(this_C,index,design,O,goal,type,tube_rad,L)
 %   Output:
 %   this_C - updates the configuration struct
 
+
+min_weight = 0.1;
+weight_mult = 0.95;
+
 % if index is base or it has already been checked
 if index == 1 || this_C.checked(index) == true
     return  %make sure variable has been properly updated
@@ -23,20 +27,26 @@ end
 % Get parent index before deleting node
 parent_index = predecessors(this_C.graph,int2str(index));
 
-[collision_bool,goal_bool] = collisionNode(type,this_C.mat(index,:),design,O,goal,tube_rad,L);
+rotation_mapped = this_C.mat(index,2)*2*pi/rot_max - pi; % maps to [-pi pi]
+this_config = [this_C.mat(index,1),rotation_mapped];
+
+[collision_bool,goal_bool] = collisionNode(type,this_config,design,O,goal,tube_rad,L);
 if collision_bool
     %if in collision, delete node and subtree
     [this_C.graph, this_C.mat] = deleteSubtree(this_C.graph,index,this_C.mat);
+    this_C.weight = min_weight + weight_mult * (this_C.weight - min_weight); % decrease weight for this design
 else 
     this_C.checked(index) = true;
+    this_C.weight = 1 + weight_mult * (this_C.weight - 1); % increase weight for this design
     if goal_bool
         this_C.goal_ind(index) = true;
         this_C.goal = true;
     end
 end
 
-% recur on parent
-this_C = collisionCheck(this_C,str2num(parent_index{:}),design,O,goal,type,tube_rad,L);
+% recur on parent  
+%--- when I delete subtree, I should erase the subtree goal indices too
+this_C = collisionCheck(this_C,str2num(parent_index{:}),design,O,goal,type,tube_rad,L,rot_max);
 end
 
 
