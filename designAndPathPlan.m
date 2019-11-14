@@ -19,10 +19,10 @@ p_explore = 0.005;
 
 tube_rad = 0.9; % in mm
 obstacles.rad = 5;  % in mm
-obstacles.pos = [120 0 20; 80 25 0; 55 20 20; 90 -15 0];
+obstacles.pos = [110 0 20; 80 25 0; 55 20 20; 90 -15 0];
 
 goal.rad = 5;
-goal.pos = [130 -2 20];
+goal.pos = [120 -2 20];
 
 % User-specified ranges to define Design and Config spaces
 init_range = [0 3];  %[0 5]
@@ -94,7 +94,7 @@ for b = 1:4
         end
     end
     
-    workspace_filename = strcat(base,"7");
+    workspace_filename = strcat(base,"8");
     cd(HOME_DIR)
     cd .\Tests
     save(workspace_filename);

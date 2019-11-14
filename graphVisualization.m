@@ -1,4 +1,4 @@
-function [] = graphVisualization(this_C,d,type,O,goal,cylinder_rad,start_ind,L,nsez)
+function [] = graphVisualization(this_C,d,type,O,goal,cylinder_rad,start_ind,L,nsez,rot_max)
 % Allows visualization of a sequence of tube configurations with certain
 % obstacles. Sequence given as a graph with the index name to start with.
 % Curves will be plotted starting at that index and iterating over the
@@ -34,7 +34,7 @@ for j = 1:length(c_indices)
     insert_val = this_C.mat(c_indices(j),1); % check order TODO
     disc_step = round(1+insert_val*(nsez-1)/L);  % number of steps out of nsez
     sectionStartInd(j) = nsez-disc_step+1;
-    angles(j) = this_C.mat(c_indices(j),2);
+    angles(j) = this_C.mat(c_indices(j),2)*2*pi/rot_max - pi; % maps to [-pi pi]
 end
 
 %compute deformation curve using d and type

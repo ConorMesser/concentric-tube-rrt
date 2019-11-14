@@ -64,6 +64,7 @@ for i = 1:length(section_position(1,:))
     % for every obstacle
     for j = 1:obs_num
         this_obs = O.pos(j,:);
+        
         dist = norm(this_obs - this_pos);
         if dist < min_dist
             collision_bool = true;
