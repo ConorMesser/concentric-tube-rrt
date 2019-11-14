@@ -12,8 +12,8 @@
 HOME_DIR = pwd;
 
 % User-specified maximum size steps for Design and Configuration spaces
-d_max_step = 1; % should this be different for the different params?
-c_max_step = 3; % should this be different for insertion/rotation?
+d_max_step = 1;
+c_max_step = 3;
 n = 10000;
 p_explore = 0.005;
 

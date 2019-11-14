@@ -48,15 +48,18 @@ this_g = g;
 discreteNum = nsez;
 run('visualizeInsertion.m');
 
-%plot obstacles on graph
+% plot cylinder boundary
 hold on
 circleYZ(0,0,0,cylinder_rad)
+
+%plot obstacles on graph
+[x_s,y_s,z_s] = sphere;
 for o = 1:length(O.pos(:,1))
     hold on
     x_o = O.pos(o,1);
     y_o = O.pos(o,2);
     z_o = O.pos(o,3);
-    scatter3(x_o,y_o,z_o,50,'x')
+    surf(x_s*O.rad+x_o,y_s*O.rad+y_o,z_s*O.rad+z_o)
 end
 
 %plot goal on graph
@@ -64,7 +67,7 @@ hold on
 x_g = goal.pos(1,1);
 y_g = goal.pos(1,2);
 z_g = goal.pos(1,3);
-scatter3(x_g,y_g,z_g,100,'x')
+surf(x_s*goal.rad+x_g,y_s*goal.rad+y_g,z_s*goal.rad+z_g)
 end
 
 function h = circleYZ(x,y,z,r)
