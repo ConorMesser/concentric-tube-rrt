@@ -59,7 +59,7 @@ for o = 1:length(O.pos(:,1))
     x_o = O.pos(o,1);
     y_o = O.pos(o,2);
     z_o = O.pos(o,3);
-    surf(x_s*O.rad+x_o,y_s*O.rad+y_o,z_s*O.rad+z_o)
+    surf(x_s*O.rad+x_o,y_s*O.rad+y_o,z_s*O.rad+z_o,'FaceColor','red')
 end
 
 %plot goal on graph
@@ -67,7 +67,7 @@ hold on
 x_g = goal.pos(1,1);
 y_g = goal.pos(1,2);
 z_g = goal.pos(1,3);
-surf(x_s*goal.rad+x_g,y_s*goal.rad+y_g,z_s*goal.rad+z_g)
+surf(x_s*goal.rad+x_g,y_s*goal.rad+y_g,z_s*goal.rad+z_g,'FaceColor','blue')
 end
 
 function h = circleYZ(x,y,z,r)

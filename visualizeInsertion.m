@@ -14,8 +14,8 @@
 
 if ~exist('this_g','var')
     % Parameters to run variable_driver code
-    bend_param = [1 -2]';
-    z_factor = -0.08;
+    bend_param = [2 -1]';
+    z_factor = 0;
     type = 'Helix';
     run('variable_driver.m');
     %S = load('.\LAST RUN\output.mat');    % Curve can be initialized by something else

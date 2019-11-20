@@ -45,7 +45,7 @@ else
 end
 
 % recur on parent  
-%--- when I delete subtree, I should erase the subtree goal indices too
+%--- when I delete subtree, I should erase the subtree goal indices too---*
 this_C = collisionCheck(this_C,str2num(parent_index{:}),design,O,goal,type,tube_rad,L,rot_max);
 end
 

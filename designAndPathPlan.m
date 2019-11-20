@@ -12,23 +12,23 @@
 HOME_DIR = pwd;
 
 % User-specified maximum size steps for Design and Configuration spaces
-d_max_step = 1;
+d_max_step = 0.25;
 c_max_step = 3;
-n = 10000;
-p_explore = 0.005;
+n = 100000;
+p_explore = 0.0025;
 
 tube_rad = 0.9; % in mm
 obstacles.rad = 5;  % in mm
-obstacles.pos = [110 0 20; 80 25 0; 55 20 20; 90 -15 0];
+obstacles.pos = [40 -8 15; 40 0 23; 40 8 15; 40 0 7; 32 -8 8; 35 7 8; 20 -15 15; 10 -10 -5];
 
 goal.rad = 5;
-goal.pos = [120 -2 20];
+goal.pos = [50 0 15];
 
 % User-specified ranges to define Design and Config spaces
-init_range = [0 3];  %[0 5]
-delta_range = [-6 3];  %[-10 10]
-factor_range = [-2 2];  %[-3 3]
-insertion_range = [0 200];  % given in mm
+init_range = [1.25 2.75];  %[0 3]
+delta_range = [-1.5 -0.5];  %[-6 3]
+factor_range = [-0.75 0.75];  %[-2 2]
+insertion_range = [0 70];  % given in mm
 rotation_range = [0 60]; % allows for scaling of nearest neighbor calls
                            %  must be mapped to -pi to pi
 
@@ -39,7 +39,7 @@ config_ranges = [insertion_range;rotation_range];
 % Defines base type names (linear, quadratic, sinusoidal, helix)
 base_names = ["Helix","Sinu","Linear","Quad"];
 
-for b = 1:4
+for b = 1:1
     base = base_names(b);
     
     % Choose a random d in design space of this base
@@ -94,7 +94,7 @@ for b = 1:4
         end
     end
     
-    workspace_filename = strcat(base,"8");
+    workspace_filename = strcat(base,"11_contrived");
     cd(HOME_DIR)
     cd .\Tests
     save(workspace_filename);
